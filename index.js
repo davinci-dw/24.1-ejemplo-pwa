@@ -1,5 +1,22 @@
 const URL = "https://ca1cee33-bafc-422e-b286-7bf52f206284-00-2c9r22u7xggi0.riker.replit.dev"
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAim6XVkbpql8usSXMqQkg96NRqTsucHjY",
+  authDomain: "ejemploonline-77dd1.firebaseapp.com",
+  projectId: "ejemploonline-77dd1",
+  storageBucket: "ejemploonline-77dd1.appspot.com",
+  messagingSenderId: "1035083684731",
+  appId: "1:1035083684731:web:40fcbd6ac91150913dfbde",
+  measurementId: "G-RSK5D72H0V"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
 const showList = (list) => {
     const container = document.querySelector('.container');
     list.forEach(element => {
@@ -40,3 +57,18 @@ if(navigator?.serviceWorker) {
         console.log("")
     })
 }
+
+const loginButton = document.getElementById("loginButton");
+loginButton.addEventListener('click', ()=> {
+    signInWithEmailAndPassword(auth, "sergiod.medina@davinci.edu.ar", "email1234")
+      .then((userCredential) => {
+        const user = userCredential.user;
+        M.toast({html: `${user.email} logueado`})
+
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        M.toast({html: `${errorMessage}`})
+      });
+})
