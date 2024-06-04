@@ -26,6 +26,17 @@ const showList = (list) => {
 const getList = async () => {
     const result = await fetch(`${URL}/list/`).then(data => data.json());
     showList(result.plants);
+    const counter = result.plants.length;
+    M.toast({html: `¡Se encontraron ${counter} plantas!`})
 }
 
 getList();
+
+if(navigator?.serviceWorker) {
+    navigator.serviceWorker.register('./sw.js').then((register) => {
+        M.toast({html: `Modo offline activado`})
+    })
+    .catch((error) => {
+        console.log("")
+    })
+}
