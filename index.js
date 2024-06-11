@@ -13,6 +13,8 @@ const firebaseConfig = {
   measurementId: "G-RSK5D72H0V"
 };
 
+let eventoDeInstalacion = null;
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -71,4 +73,14 @@ loginButton.addEventListener('click', ()=> {
         const errorMessage = error.message;
         M.toast({html: `${errorMessage}`})
       });
+})
+
+window.addEventListener("beforeinstallprompt", (e) => {
+    console.log("beforeinstallprompt", e)
+    eventoDeInstalacion = e;
+});
+
+const installButton = document.getElementById("installButton");
+installButton.addEventListener("click", () => {
+    console.log("eventoDeInstalacion", eventoDeInstalacion);
 })
