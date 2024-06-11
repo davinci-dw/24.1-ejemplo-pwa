@@ -78,9 +78,34 @@ loginButton.addEventListener('click', ()=> {
 window.addEventListener("beforeinstallprompt", (e) => {
     console.log("beforeinstallprompt", e)
     eventoDeInstalacion = e;
+    //acá puedo también mostrar
 });
 
 const installButton = document.getElementById("installButton");
 installButton.addEventListener("click", () => {
     console.log("eventoDeInstalacion", eventoDeInstalacion);
+    if(eventoDeInstalacion && eventoDeInstalacion.prompt) {
+        eventoDeInstalacion.prompt()
+        .then((resultado) => {
+            const opcionesElegida = resultado.outcome;
+            console.log("opcionesElegida", opcionesElegida)
+            if(opcionesElegida == "dismissed") {
+                console.log("Instalación cancelada");
+            } else if(opcionesElegida == "accepted") {
+                console.log("Instalación completa")
+                ocultarBotonInstalacion();
+            }
+        })
+        .catch((error) => console.log("error al instalar"))
+    }
 })
+
+const ocultarBotonInstalacion = () => {
+    installButton.style.display = "none";
+}
+
+setTimeout( () => {
+    if(eventoDeInstalacion == null) {
+        ocultarBotonInstalacion();
+    }
+}, 200);
